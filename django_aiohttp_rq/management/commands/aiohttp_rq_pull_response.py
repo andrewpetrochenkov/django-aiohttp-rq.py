@@ -4,7 +4,7 @@ import os
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from aiohttp_rq.redis import REDIS, RESPONSE_QUEUE as QUEUE
+from aiohttp_rq.redis_client import REDIS, RESPONSE_QUEUE as QUEUE
 from ...models import Response
 
 PREFETCH_COUNT = 10000

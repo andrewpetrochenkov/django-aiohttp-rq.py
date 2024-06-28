@@ -3,7 +3,7 @@ import json
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from aiohttp_rq.redis import REDIS, REQUEST_QUEUE as QUEUE
+from aiohttp_rq.redis_client import REDIS, REQUEST_QUEUE as QUEUE
 from ...models import Request
 
 class Command(BaseCommand):
