@@ -11,7 +11,6 @@ from .utils import get_timestamp
 
 class Response(models.Model):
     id = models.BigAutoField(primary_key=True)
-    request = models.JSONField()
     url = models.CharField(max_length=1024)
     status = models.IntegerField()
     headers = models.JSONField()

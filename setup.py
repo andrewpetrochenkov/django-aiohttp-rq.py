@@ -1,11 +1,8 @@
 import setuptools
 
-# PRODUCTION setup.py: name, version, install_requires, packages only
-with open('requirements.txt', encoding="utf-8") as file:
-    install_requires = file.read().splitlines()
+# PRODUCTION setup.py: name, version, packages only
 setuptools.setup(
     name='django-aiohttp-rq',
-    version='0.0.1',
-    install_requires=install_requires,
+    version='0.0.5',
     packages=setuptools.find_packages()
 )

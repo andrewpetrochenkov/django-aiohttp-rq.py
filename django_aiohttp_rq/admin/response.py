@@ -9,7 +9,7 @@ from ..models import Response as Model
 
 class ModelAdmin(admin.ModelAdmin):
     list_display = [
-        # "request",
+        "id",
         "url",
         "status",
         "content_path",

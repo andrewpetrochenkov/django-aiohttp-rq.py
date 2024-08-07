@@ -1,3 +1,0 @@
-aiohttp_rq
-Django
-setuptools

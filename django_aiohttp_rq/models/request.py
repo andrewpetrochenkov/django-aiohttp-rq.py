@@ -11,7 +11,6 @@ class Request(models.Model):
     headers = models.JSONField(null=True)
     allow_redirects = models.BooleanField(default=True)
     max_redirects = models.IntegerField(null=True, default=5)
-    timeout = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'aiohttp_rq_request'

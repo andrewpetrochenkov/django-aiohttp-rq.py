@@ -1,14 +1,17 @@
 import json
+import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django_aiohttp_rq.redis_client import REDIS
 
-from aiohttp_rq.redis_client import REDIS, REQUEST_QUEUE as QUEUE
 from ...models import Request
+
+REQUEST_QUEUE = getattr(settings,'AIOHTTP_RQ_REQUEST_QUEUE','aiohttp_rq_request')
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        request_list = list(Request.objects.all())
+        request_list = list(Request.objects.all()[0:10000])
         if request_list:
             data_list = []
             for request in request_list:
@@ -20,11 +23,11 @@ class Command(BaseCommand):
                     data=request.data,
                     allow_redirects=request.allow_redirects
                 )]
-            if settings.DEBUG:
-                self.stdout.write('PUSH %s (%s)\n' % (QUEUE,len(request_list)))
+            logging.debug('REDIS PUSH %s (%s)' % (REQUEST_QUEUE,len(request_list)))
             pipe = REDIS.pipeline()
             for data in data_list:
-                REDIS.lpush(QUEUE, json.dumps(data))
+                REDIS.lpush(REQUEST_QUEUE, json.dumps(data))
             pipe.execute()
-            id_list = list(map(lambda r:r.id,request_list))
-            Request.objects.filter(id__in=id_list).delete()
+            Request.objects.filter(
+                id__in=list(map(lambda r:r.id,request_list))
+            ).delete()
